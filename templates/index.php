@@ -59,7 +59,7 @@
                     if ($menu == 'origem') {
                         include '../public/centrocusto.php';
                     } elseif ($menu == 'tipo') {
-                        include 'components/tipo.php';
+                        include '../public/tipoDespesa.php';
                     } elseif ($menu == 'lancamentos') {
                         include 'components/lancamentos.php';
                     } else {

@@ -1,9 +1,10 @@
 <?php
-class CentroCusto {
+class Despesa {
     private $conn;
-    private $table_name = "centrocusto";
+    private $table_name = "despesa";
 
     public $id;
+    public $idCentroCusto;
     public $idUsuario;
     public $nome;
     public $ativo;
@@ -28,7 +29,6 @@ class CentroCusto {
         $stmt->execute();
         return $stmt;
     }
-
     public function getAll() {
         $query = "SELECT id, nome FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
@@ -36,15 +36,18 @@ class CentroCusto {
         return $stmt;
     }
     
+
     public function create() {
-        $query = "INSERT INTO " . $this->table_name . " (idUsuario, nome, ativo, dtCadastro) VALUES (:idUsuario, :nome, :ativo, :dtCadastro)";
+        $query = "INSERT INTO " . $this->table_name . " (idCentroCusto, idUsuario, nome, ativo, dtCadastro) VALUES (:idCentroCusto, :idUsuario, :nome, :ativo, :dtCadastro)";
         $stmt = $this->conn->prepare($query);
 
+        $this->idCentroCusto = htmlspecialchars(strip_tags($this->idCentroCusto));
         $this->idUsuario = htmlspecialchars(strip_tags($this->idUsuario));
         $this->nome = htmlspecialchars(strip_tags($this->nome));
         $this->ativo = htmlspecialchars(strip_tags($this->ativo));
         $this->dtCadastro = htmlspecialchars(strip_tags($this->dtCadastro));
 
+        $stmt->bindParam(":idCentroCusto", $this->idCentroCusto);
         $stmt->bindParam(":idUsuario", $this->idUsuario);
         $stmt->bindParam(":nome", $this->nome);
         $stmt->bindParam(":ativo", $this->ativo);
@@ -57,13 +60,15 @@ class CentroCusto {
     }
 
     public function update() {
-        $query = "UPDATE " . $this->table_name . " SET nome = :nome WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . " SET idCentroCusto = :idCentroCusto, nome = :nome WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->idCentroCusto = htmlspecialchars(strip_tags($this->idCentroCusto));
         $this->nome = htmlspecialchars(strip_tags($this->nome));
 
         $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":idCentroCusto", $this->idCentroCusto);
         $stmt->bindParam(":nome", $this->nome);
 
         if ($stmt->execute()) {
@@ -73,7 +78,7 @@ class CentroCusto {
     }
 
     public function delete() {
-        $query = "DELETE FROM despesa WHERE idCentroCusto = :id; DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -86,14 +91,16 @@ class CentroCusto {
     }
 
     public function getSingle() {
-        $query = "SELECT nome FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
+        $query = "SELECT idCentroCusto, nome FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
+            $this->idCentroCusto = $row['idCentroCusto'];
             $this->nome = $row['nome'];
         } else {
+            $this->idCentroCusto = null;
             $this->nome = null;
         }
     }
