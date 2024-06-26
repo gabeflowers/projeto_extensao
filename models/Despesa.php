@@ -15,20 +15,25 @@ class Despesa {
     }
 
     public function read($search = "") {
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT d.id, d.nome, d.idCentroCusto, c.nome AS centroCustoNome 
+                  FROM " . $this->table_name . " d 
+                  JOIN centrocusto c ON d.idCentroCusto = c.id";
+        
         if ($search) {
-            $query .= " WHERE nome LIKE :search";
+            $query .= " WHERE d.nome LIKE :search OR c.nome LIKE :search";
         }
+        
         $stmt = $this->conn->prepare($query);
-
+        
         if ($search) {
             $search = "%{$search}%";
             $stmt->bindParam(":search", $search);
         }
-
+        
         $stmt->execute();
         return $stmt;
     }
+    
     public function getAll() {
         $query = "SELECT id, nome FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);

@@ -50,6 +50,32 @@
                         </div>
                     </div>
                 </div>
+                <div class="accordion bg-transparent" id="sidebarAccordion">
+                    <div class="card bg-transparent">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn text-black justify-content-between d-flex align-content-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Configurações
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#sidebarAccordion">
+                            <div class="card-body">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="?menu=usuario">Gerenciamento de usuários</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="?menu=tipo">Gerenciamento de empresa</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="?menu=lancamentos">Lançamentos</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- Main Content -->
             <div class="col-10 content">
@@ -62,6 +88,8 @@
                         include '../public/tipoDespesa.php';
                     } elseif ($menu == 'lancamentos') {
                         include 'components/lancamentos.php';
+                    } elseif ($menu == 'usuario') {
+                        include '../public/usuario.php';
                     } else {
                         echo "<h3>Bem-vindo ao sistema de Fluxo de Caixa</h3>";
                     }
