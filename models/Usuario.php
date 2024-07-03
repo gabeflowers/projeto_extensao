@@ -17,7 +17,7 @@ class Usuario {
 
     function create() {
         $query = "INSERT INTO " . $this->table_name . " (idEmpresa, idPerfil, nome, email, ativo, dtCadastro) VALUES (:idEmpresa, :idPerfil, :nome, :email, :ativo, :dtCadastro)";
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);                      //testeperfil
 
         $this->idEmpresa = htmlspecialchars(strip_tags($this->idEmpresa));
         $this->idPerfil = htmlspecialchars(strip_tags($this->idPerfil));

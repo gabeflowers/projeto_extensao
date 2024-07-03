@@ -66,7 +66,7 @@
                                         <a class="nav-link" href="?menu=usuario">Gerenciamento de usuários</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="?menu=tipo">Gerenciamento de empresa</a>
+                                        <a class="nav-link" href="?menu=empresa">Gerenciamento de empresa</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="?menu=lancamentos">Lançamentos</a>
@@ -90,7 +90,9 @@
                         include 'components/lancamentos.php';
                     } elseif ($menu == 'usuario') {
                         include '../public/usuario.php';
-                    } else {
+                    } elseif ($menu == 'empresa') {
+                    include '../public/empresa.php';
+                } else {
                         echo "<h3>Bem-vindo ao sistema de Fluxo de Caixa</h3>";
                     }
                 } else {
