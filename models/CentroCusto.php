@@ -73,7 +73,7 @@ class CentroCusto {
     }
 
     public function delete() {
-        $query = "DELETE FROM despesa WHERE idCentroCusto = :id; DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->id = htmlspecialchars(strip_tags($this->id));

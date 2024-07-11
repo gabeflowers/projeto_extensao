@@ -21,7 +21,7 @@ switch ($action) {
         $despesa->dtCadastro = date('Y-m-d H:i:s');
 
         if ($despesa->create()) {
-            header("Location: ../templates/index.php?page=tipo");
+            header("Location: ../templates/index.php?menu=tipo");
         } else {
             echo "Erro ao criar o tipo de despesa.";
         }
@@ -33,7 +33,7 @@ switch ($action) {
         $despesa->nome = $_POST['nome'];
 
         if ($despesa->update()) {
-            header("Location: ../templates/index.php?page=tipo");
+            header("Location: ../templates/index.php?menu=tipo");
         } else {
             echo "Erro ao atualizar o tipo de despesa.";
         }
@@ -43,7 +43,7 @@ switch ($action) {
         $despesa->id = $_POST['id'];
 
         if ($despesa->delete()) {
-            header("Location: ../templates/index.php?page=tipo");
+            header("Location: ../templates/index.php?menu=tipo");
         } else {
             echo "Erro ao deletar o tipo de despesa.";
         }
@@ -71,10 +71,11 @@ switch ($action) {
                 <div class="mt-2 p-2 text-dark" style="background-color: #F6F6F6;">
                     <h3>Tipos de Despesa (Total: X)</h3>
                 </div>
-                <table class="table">
+                <table class="table table-striped table-bordered">
                     <thead class="table-dark">
                         <tr>
                             <th class="col-sm-10 p-3" scope="col">Nome</th>
+                            <th class="col-sm-10 p-3" scope="col">Centro de Custo</th>
                             <th class="p-3 col-auto text-center" colspan="2" scope="col">Ações</th>
                         </tr>
                     </thead>
@@ -82,7 +83,13 @@ switch ($action) {
 
                     $stmt = $despesa->read($search);
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<tr><td>" . htmlspecialchars($row["nome"]) . "</td><td>" . htmlspecialchars($row["centroCustoNome"]) . "</td><td><a href='#' class='edit' data-id='" . $row["id"] . "' data-name='" . htmlspecialchars($row["idCentroCusto"]) . "' data-idCentroCusto='" . $row["idCentroCusto"] . "'>Editar</a> <a href='#' class='delete' data-id='" . $row["id"] . "'>Excluir</a></td></tr>";
+                        echo "<tr><td>" . htmlspecialchars($row["nome"]) . "</td><td>" . htmlspecialchars($row["centroCustoNome"]) . "</td><td>
+                        <a href='#' class='edit btn btn-warning btn-sm' data-id=' data-id='" . $row["id"] . "' data-name='" . htmlspecialchars($row["nome"]) . "' >
+                        <i class='bi bi-0-circle'></i>
+                        </a> 
+                        <a href='#' class='delete btn btn-danger btn-sm' data-id='" . $row["id"] . "'>
+                            <i class='fa fa-trash'></i>
+                        </a></td></tr>";
                     }
 
         echo '      </tbody>
@@ -173,7 +180,7 @@ switch ($action) {
 </div>
 
 <!-- Hidden Form for Delete -->
-<form method="post" action="despesa.php" id="delete-form" style="display:none;">
+<form method="post" action="../public/tipoDespesa.php" id="delete-form" style="display:none;">
     <input type="hidden" name="action" value="delete">
     <input type="hidden" name="id" id="delete-id">
 </form>

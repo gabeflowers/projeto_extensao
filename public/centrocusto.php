@@ -151,6 +151,7 @@ switch ($action) {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
         document.querySelectorAll('.edit').forEach(function(button) {
             button.addEventListener('click', function() {
                 document.getElementById('edit-id').value = this.dataset.id;
