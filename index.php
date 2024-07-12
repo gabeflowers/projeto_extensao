@@ -11,7 +11,7 @@
     <div class="container">
         <div class="card">
             <h1>Login</h1>
-            <form action="/login" method="POST" class="label-float">
+            <form action="./templates/index.php" method="POST" class="label-float">
                 <div class="label-float">
                     <input type="text" id="username" name="username" required>
                     <label for="username">Usuário</label>
