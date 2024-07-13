@@ -56,9 +56,9 @@ class LancamentoDespesa {
                   FROM " . $this->table_name . " ld 
                   LEFT JOIN despesa d ON ld.idDespesa = d.id
                   LEFT JOIN usuario u ON ld.idUsuario = u.id
-                  LEFT JOIN centrocusto cc ON d.idCentroCusto = cc.id";
+                  LEFT JOIN centrocusto cc ON d.idCentroCusto = cc.id WHERE ld.ativo='S'";
         if ($search) {
-            $query .= " WHERE d.nome LIKE :search OR u.nome LIKE :search OR ld.observacoes LIKE :search";
+            $query .= " AND d.nome LIKE :search ";
         }
 
         $stmt = $this->conn->prepare($query);
@@ -105,11 +105,10 @@ class LancamentoDespesa {
     }
 
     function delete() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . " SET ativo = 'N' WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
-        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
             return true;

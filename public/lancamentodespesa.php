@@ -56,7 +56,7 @@ switch ($action) {
         $lancamentoDespesa->id = $_POST['id'];
 
         if ($lancamentoDespesa->delete()) {
-            header("Location: ../templates/index.php?menu=lancamentodespesa");
+            header("Location: ../templates/index.php?menu=lancamentos");
         } else {
             echo "Erro ao deletar o lançamento de despesa.";
         }
