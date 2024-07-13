@@ -64,7 +64,7 @@ switch ($action) {
 
     default:
         // Lista os lançamentos de despesas
-        echo '<div class="content">
+        echo '<div>
                 <h3>Lançamentos de Despesas</h3>
                 <hr>
                 <div class="d-flex justify-content-end">
@@ -109,11 +109,12 @@ switch ($action) {
                     <td>" . htmlspecialchars($row["observacoes"]) . "</td>
                     <td>" . htmlspecialchars($row["valor"]) . "</td>
                     <td>" . htmlspecialchars($row["valorPago"]) . "</td>
-                    <td class='text-center'>
+                    <td class='d-flex justify-content-center'>
                         <a href='#' class='edit btn btn-warning btn-sm' data-id='" . $row["id"] . "'>
-                            <i class='bi bi-0-circle'></i>
+                            <i class='fas fa-pencil-alt'> 
+                            </i>
                         </a>
-                        <a href='#' class='delete btn btn-danger btn-sm' data-id='" . $row["id"] . "'>
+                        <a href='#' class='delete btn btn-danger btn-sm ml-2' data-id='" . $row["id"] . "'>
                             <i class='fa fa-trash'></i>
                         </a>
                     </td>

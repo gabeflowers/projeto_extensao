@@ -41,10 +41,10 @@
         <div class="row">
             <!-- Header -->
             <div class="col-12 header justify-content-center d-flex">
-                <button class="btn btn-primary d-md-none" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
+                <button class="p-0 btn d-md-none" onclick="toggleSidebar()">
+                    <i class="fas fa-bars" style="font-size:30px;color:white"></i>
                 </button>
-                <p class="navbar-brand mb-0 h1 text-primary text-center align-content-center ml-5">FLUXO DE CAIXA</p>
+                <p class="navbar-brand mb-0 h1 text-light mx-auto text-center align-content-center ml-5">FLUXO DE CAIXA</p>
             </div>
         </div>
         <div class="row">

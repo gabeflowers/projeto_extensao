@@ -17,10 +17,10 @@ class Despesa {
     public function read($search = "") {
         $query = "SELECT d.id, d.nome, d.idCentroCusto, c.nome AS centroCustoNome 
                   FROM " . $this->table_name . " d 
-                  JOIN centrocusto c ON d.idCentroCusto = c.id";
+                  JOIN centrocusto c ON d.idCentroCusto = c.id WHERE d.ativo='S'";
         
         if ($search) {
-            $query .= " WHERE d.nome LIKE :search OR c.nome LIKE :search";
+            $query .= " AND d.nome LIKE :search";
         }
         
         $stmt = $this->conn->prepare($query);
@@ -35,7 +35,7 @@ class Despesa {
     }
     
     public function getAll() {
-        $query = "SELECT id, nome FROM " . $this->table_name;
+        $query = "SELECT id, nome FROM " . $this->table_name . " WHERE ativo = 'S'";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -83,11 +83,10 @@ class Despesa {
     }
 
     public function delete() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . " SET ativo = 'N' WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
-        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
             return true;
@@ -108,6 +107,14 @@ class Despesa {
             $this->idCentroCusto = null;
             $this->nome = null;
         }
+    }
+
+    public function count() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE ativo = 'S'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
     }
 }
 ?>
