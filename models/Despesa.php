@@ -116,5 +116,16 @@ class Despesa {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total'];
     }
+    
+    public function getDespesasByCentroCusto($centroCustoId){
+        $query = "SELECT id, nome FROM " . $this->table_name . " WHERE ativo = 'S' and idCentroCusto = :idCentroCusto";
+        $stmt = $this->conn->prepare($query);
+        
+        $centroCustoId = htmlspecialchars(strip_tags($centroCustoId));
+        $stmt->bindParam(":idCentroCusto", $centroCustoId);
+
+        $stmt->execute();
+        return $stmt;
+    }
 }
 ?>

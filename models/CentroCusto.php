@@ -29,7 +29,9 @@ class CentroCusto {
         return $stmt;
     }
 
-    public function getAll() {
+    public function getAll() { 
+
+        //precisamos filtrar também a empresa??? ~by jsflores
         $query = "SELECT id, nome FROM " . $this->table_name . " WHERE ativo='S'";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
