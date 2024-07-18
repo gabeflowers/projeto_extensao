@@ -149,7 +149,7 @@ switch ($action) {
                     <div class="input-group mt-3 mb-3">
                         <span class="input-group-text" id="basic-addon1">Centro de Custo: </span>
                         <select name="idCentroCusto" class="form-control" id="selectCentroCustoId">
-                            <option value='<?php echo ID_NULL ?>'>Selecione...</option>
+                            <option value='<?php echo ID_NULL ?>' disabled>Selecione...</option>
                             <?php
                             $stmt = $centroCusto->getAll();
                             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -161,7 +161,7 @@ switch ($action) {
                     </div>
                     <div class="input-group mt-3 mb-3">
                         <span class="input-group-text" id="basic-addon1">Despesa: </span>
-                        <select class="form-control" name="idDespesa" id="selectDespesaId">
+                        <select class="form-control" name="idDespesa" id="selectDespesaId" disabled >
                             <option value="">Selecione...</option>
                             <?php
                             $stmt = $despesa->getAll();
@@ -322,17 +322,34 @@ switch ($action) {
     });
 
     let selectCentroCusto = document.getElementById("selectCentroCustoId");
+    let selectDespesa = document.getElementById("selectDespesaId");
 
     //onChangeCentroCusto
     selectCentroCusto.addEventListener('change', async(e) => {
-        
+
         let selectCentroCusto = e.target;
         let centroCustoId = selectCentroCusto.options[selectCentroCusto.selectedIndex].value;
         
+        if(centroCustoId == '<?php echo ID_NULL ?>'){
+            selectDespesa.setAttribute("disabled", "")
+            return
+        }
+
         fetch(`../controllers/LancamentoDespesaController.php?centroCustoId=${centroCustoId}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                selectDespesa.innerHTML = ""
+                
+                let optionDefault = new Option("Selecione..", null, true, true)
+                optionDefault.disabled = true
+                selectDespesa.add(optionDefault)
+                
+                data.forEach( despesa => {
+                    let option = new Option(despesa.nome, despesa.id)
+                    selectDespesa.add(option)
+                })
+                
+                selectDespesa.removeAttribute("disabled")
             })
         .catch(error => console.error('Erro:', error));
     })
