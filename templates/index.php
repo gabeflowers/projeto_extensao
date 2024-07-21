@@ -113,7 +113,7 @@
                     } elseif ($menu == 'tipo') {
                         include '../public/tipoDespesa.php';
                     } elseif ($menu == 'lancamentos') {
-                        include '../public/lancamentodespesa.php';
+                        include '../views/lancamentoDespesa/index.php';
                     } elseif ($menu == 'usuario') {
                         include '../public/usuario.php';
                     } elseif ($menu == 'empresa') {

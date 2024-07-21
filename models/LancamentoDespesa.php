@@ -58,7 +58,7 @@ class LancamentoDespesa {
                   LEFT JOIN usuario u ON ld.idUsuario = u.id
                   LEFT JOIN centrocusto cc ON d.idCentroCusto = cc.id WHERE ld.ativo='S'";
         if ($search) {
-            $query .= " AND d.nome LIKE :search ";
+            $query .= " AND (d.nome LIKE :search OR ld.observacoes LIKE :search) ";
         }
 
         $stmt = $this->conn->prepare($query);
@@ -122,5 +122,14 @@ class LancamentoDespesa {
         $stmt->execute();
         return $stmt;
     }
+
+    public function count() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE ativo = 'S'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+    
 }
 ?>
