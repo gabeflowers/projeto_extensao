@@ -1,8 +1,9 @@
 <?php
 
-$id = isset($_GET['id']) ? $_GET['id'] : ID_NULL;
+$lancamentoDespesaId = isset($_GET['id']) ? $_GET['id'] : ID_NULL;
+$isEdit = ($lancamentoDespesaId <> ID_NULL);
 
-if ($id == ID_NULL) {
+if ($isEdit == false) {
   //exibir o list
 ?>
   <div>
@@ -15,7 +16,7 @@ if ($id == ID_NULL) {
       <h3>Filtrar</h3>
     </div>
 
-    <form method="post" action="<?php echo $links["submitSearch"] ?>">
+    <form method="post" action="<?php echo $links["screenLancamentos"] ?>">
       <div class="input-group mt-3 mb-3">
         <span class="input-group-text" id="basicaddon1">Buscar: </span>
         <input type="text" class="form-control" name="search" id="searchInput" value="<?php echo htmlspecialchars($search) ?>" placeholder="Digite sua busca...">
@@ -74,7 +75,7 @@ if ($id == ID_NULL) {
   </div>
 
   <!-- Hidden Form for Delete -->
-  <form method="post" action="<?php echo $links["submitDelete"] ?>" id="delete-form" style="display:none;">
+  <form method="post" action="<?php echo $links["screenLancamentos"] ?>" id="delete-form" style="display:none;">
     <input type="hidden" name="action" value="delete">
     <input type="hidden" name="id" id="delete-id">
   </form>
@@ -87,7 +88,7 @@ if ($id == ID_NULL) {
       document.querySelectorAll('.edit').forEach(function(button) {
         button.addEventListener('click', function() {
           console.log(this.dataset.id)
-          window.location.href = ('<?php echo $links["editScreen"] ?>' + this.dataset.id);
+          window.location.href = ('<?php echo $links["screenEditLancamento"] ?>' + this.dataset.id);
         });
       });
 
@@ -101,7 +102,7 @@ if ($id == ID_NULL) {
       document.getElementById('resetButton').addEventListener('click', function() {
         console.log('reset button clicked');
         document.querySelector('input[name="search"]').value = '';
-        window.location.href = '<?php echo $links["submitSearch"] ?>';
+        window.location.href = '<?php echo $links["screenLancamentos"] ?>';
       });
     });
   </script>
@@ -110,6 +111,9 @@ if ($id == ID_NULL) {
   <h3>Atualizar Lançamento</h3>
   <hr>
 <?php 
-  include_once 'formularioCreate.php';
+  
+  include_once 'formularioCreateUpdateLancamento.php'; ?>
+
+<?php
 }
 ?>

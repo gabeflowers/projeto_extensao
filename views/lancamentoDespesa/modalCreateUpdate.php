@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <?php include 'formularioCreate.php'; ?>
+        <?php include 'formularioCreateUpdateLancamento.php'; ?>
       </div>
     </div>
   </div>
@@ -86,38 +86,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  let selectCentroCusto = document.getElementById("selectCentroCustoId");
-  let selectDespesa = document.getElementById("selectDespesaId");
-
-  //onChangeCentroCusto
-  selectCentroCusto.addEventListener('change', async (e) => {
-
-    let selectCentroCusto = e.target;
-    let centroCustoId = selectCentroCusto.options[selectCentroCusto.selectedIndex].value;
-
-    if (centroCustoId == '<?php echo ID_NULL ?>') {
-      selectDespesa.setAttribute("disabled", "")
-      return
-    }
-
-    fetch(`../controllers/LancamentoDespesaController.php?centroCustoId=${centroCustoId}`)
-      .then(response => response.json())
-      .then(data => {
-        selectDespesa.innerHTML = ""
-
-        let optionDefault = new Option("Selecione..", null, true, true)
-        optionDefault.disabled = true
-        selectDespesa.add(optionDefault)
-
-        data.forEach(despesa => {
-          let option = new Option(despesa.nome, despesa.id)
-          selectDespesa.add(option)
-        })
-
-        selectDespesa.removeAttribute("disabled")
-      })
-      .catch(error => console.error('Erro:', error));
-  })
-</script>

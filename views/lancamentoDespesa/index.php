@@ -18,10 +18,8 @@ $action = isset($_POST['action']) ? $_POST['action'] : '';
 $search = isset($_POST['search']) ? $_POST['search'] : '';
 
 $links = Array(
-    "submitDelete" => 'index.php?menu=lancamentos',
-    "submitSearch" => 'index.php?menu=lancamentos',
-    "submitCreate" => 'index.php?menu=lancamentos',
-    "editScreen" => 'index.php?menu=lancamentos&id='
+    "screenLancamentos" => 'index.php?menu=lancamentos',
+    "screenEditLancamento" => 'index.php?menu=lancamentos&id='
 );
 
 switch ($action) {

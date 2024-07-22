@@ -109,6 +109,21 @@ class Despesa {
         }
     }
 
+    public function getCentroCustoByDespesaId($despesaId) {
+        $query = "SELECT idCentroCusto FROM " . $this->table_name . " WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $despesaId);
+        $stmt->execute();
+        
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return $row['idCentroCusto'];
+        } else {
+            return false;
+        }
+    }
+
     public function count() {
         $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE ativo = 'S'";
         $stmt = $this->conn->prepare($query);

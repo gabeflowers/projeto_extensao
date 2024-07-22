@@ -123,6 +123,33 @@ class LancamentoDespesa {
         return $stmt;
     }
 
+    public function getById($LancamentoDespesaId) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':id', $LancamentoDespesaId);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+
+            $this->id = $row['id'];
+            $this->idDespesa = $row['idDespesa'];
+            $this->idUsuario = $row['idUsuario'];
+            $this->parcela = $row['parcela'];
+            $this->dtCadastro = $row['dtCadastro'];
+            $this->dtVencimento = $row['dtVencimento'];
+            $this->valor = $row['valor'];
+            $this->dtPagamento = $row['dtPagamento'];
+            $this->valorPago = $row['valorPago'];
+            $this->observacoes = $row['observacoes'];
+            $this->ativo = $row['ativo'];
+            return true;
+        }else{
+            //return the databaseError
+            return false;
+        }
+    }
+
     public function count() {
         $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE ativo = 'S'";
         $stmt = $this->conn->prepare($query);
