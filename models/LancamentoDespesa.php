@@ -58,7 +58,7 @@ class LancamentoDespesa {
                   LEFT JOIN usuario u ON ld.idUsuario = u.id
                   LEFT JOIN centrocusto cc ON d.idCentroCusto = cc.id WHERE ld.ativo='S'";
         if ($search) {
-            $query .= " AND d.nome LIKE :search ";
+            $query .= " AND (d.nome LIKE :search OR ld.observacoes LIKE :search) ";
         }
 
         $stmt = $this->conn->prepare($query);
@@ -122,5 +122,41 @@ class LancamentoDespesa {
         $stmt->execute();
         return $stmt;
     }
+
+    public function getById($LancamentoDespesaId) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':id', $LancamentoDespesaId);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+
+            $this->id = $row['id'];
+            $this->idDespesa = $row['idDespesa'];
+            $this->idUsuario = $row['idUsuario'];
+            $this->parcela = $row['parcela'];
+            $this->dtCadastro = $row['dtCadastro'];
+            $this->dtVencimento = $row['dtVencimento'];
+            $this->valor = $row['valor'];
+            $this->dtPagamento = $row['dtPagamento'];
+            $this->valorPago = $row['valorPago'];
+            $this->observacoes = $row['observacoes'];
+            $this->ativo = $row['ativo'];
+            return true;
+        }else{
+            //return the databaseError
+            return false;
+        }
+    }
+
+    public function count() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE ativo = 'S'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+    
 }
 ?>
