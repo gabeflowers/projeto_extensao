@@ -16,7 +16,7 @@ if ($isEdit == false) {
       <h3>Filtrar</h3>
     </div>
 
-    <form method="post" action="<?php echo $links["screenLancamentos"] ?>">
+    <form method="post" action="<?php echo $links["screenLancamentos"] ?>" autocomplete="off">
       <div class="input-group mt-3 mb-3">
         <span class="input-group-text" id="basicaddon1">Buscar: </span>
         <input type="text" class="form-control" name="search" id="searchInput" value="<?php echo htmlspecialchars($search) ?>" placeholder="Digite sua busca...">

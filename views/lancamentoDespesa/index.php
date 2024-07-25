@@ -44,7 +44,7 @@ switch ($action) {
         break;
 
     case 'update':
-        $lancamentoDespesa->id = $_POST['id'];
+        $lancamentoDespesa->id = $_POST['lancamentoDespesaId'];
         $lancamentoDespesa->idDespesa = $_POST['idDespesa'];
         $lancamentoDespesa->idUsuario = 1;
         $lancamentoDespesa->parcela = $_POST['parcela'];
@@ -55,7 +55,8 @@ switch ($action) {
         $lancamentoDespesa->observacoes = $_POST['observacoes'];
 
         if ($lancamentoDespesa->update()) {
-            header("Location: ../templates/index.php?menu=lancamentos");
+            echo '<div class="p-1 mb-2 bg-secondary text-white fixed-bottom">Lançamento Atualizado com sucesso!</div>';
+            include_once 'endScreen.php';
         } else {
             echo '<div class="p-1 mb-2 bg-danger text-white fixed-bottom">Erro ao atualizar o lançamento de despesa.!</div>';
         }

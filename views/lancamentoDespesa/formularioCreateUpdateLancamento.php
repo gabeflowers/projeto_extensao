@@ -9,8 +9,9 @@
     
   }
 ?>
-<form method="post" action="<?php echo $links["screenLancamentos"] ?>">
+<form method="post" action="<?php echo $links["screenLancamentos"] ?>" autocomplete="off">
   <input type="hidden" name="action" value=<?php echo($isEdit ? "update" : "create");?>>
+  <input type="hidden" name="lancamentoDespesaId" value=<?php echo($isEdit ? $lancamentoDespesaId : "" );?>>
   <div class="input-group mt-3 mb-3">
     <span class="input-group-text" id="basic-addon1">Centro de Custo: </span>
     <select name="idCentroCusto" class="form-control" id="selectCentroCustoId">
@@ -54,23 +55,32 @@
   </div>
   <div class="input-group mt-3 mb-3">
     <span class="input-group-text" id="basic-addon1">Valor: </span>
-    <input type="text" class="form-control" name="valor" placeholder="Valor" aria-label="Valor" aria-describedby="basic-addon1">
+    <input type="text" class="form-control" name="valor" placeholder="Valor" 
+      value="<?php echo($isEdit ? $lancamentoDespesa->valor : "");?>"
+      aria-label="Valor" aria-describedby="basic-addon1">
   </div>
   <div class="input-group mt-3 mb-3">
     <span class="input-group-text" id="basic-addon1">Vencimento: </span>
-    <input type="date" class="form-control" name="dtVencimento" aria-label="Vencimento" aria-describedby="basic-addon1">
+    <input type="date" class="form-control" name="dtVencimento" 
+      value="<?php echo($isEdit ? $lancamentoDespesa->dtVencimento : "");?>"
+      aria-label="Vencimento" aria-describedby="basic-addon1">
   </div>
   <div class="input-group mt-3 mb-3">
     <span class="input-group-text" id="basic-addon1">Pagamento: </span>
-    <input type="date" class="form-control" name="dtPagamento" aria-label="Pagamento" aria-describedby="basic-addon1">
+    <input type="date" class="form-control" name="dtPagamento" 
+      value="<?php echo($isEdit ? $lancamentoDespesa->dtPagamento : "");?>"
+      aria-label="Pagamento" aria-describedby="basic-addon1">
   </div>
   <div class="input-group mt-3 mb-3">
     <span class="input-group-text" id="basic-addon1">Valor Pago: </span>
-    <input type="text" class="form-control" name="valorPago" placeholder="Valor Pago" aria-label="Valor Pago" aria-describedby="basic-addon1">
+    <input type="text" class="form-control" name="valorPago" placeholder="Valor Pago" 
+      value="<?php echo($isEdit ? $lancamentoDespesa->valorPago : "");?>"
+      aria-label="Valor Pago" aria-describedby="basic-addon1">
   </div>
   <div class="input-group mt-3 mb-3">
     <span class="input-group-text" id="basic-addon1">Observações: </span>
-    <textarea class="form-control" name="observacoes" placeholder="Observações" aria-label="Observações" aria-describedby="basic-addon1"></textarea>
+    <textarea class="form-control" name="observacoes" placeholder="Observações" 
+      aria-label="Observações" aria-describedby="basic-addon1"><?php echo($isEdit ? $lancamentoDespesa->observacoes : "");?></textarea>
   </div>
   
   <?php 
@@ -79,7 +89,7 @@
 
       <div class="d-flex justify-content-end">
         <a href="<?php echo $links["screenLancamentos"] ?>" type="button" class="btn btn-secondary mx-2">Voltar</a>
-        <input type="submit" name="create" class="btn btn-primary" value="Salvar">
+        <input type="submit" name="update" class="btn btn-primary" value="Atualizar">
       </div>
       
       <?php
