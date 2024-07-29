@@ -15,7 +15,7 @@ if ($isEdit == false) {
     <div>
       <form method="post" action="<?php echo $links["screenLancamentos"] ?>" autocomplete="off">
         <div class="input-group input-group-sm my-1">
-          <input type="text" class="form-control" name="search" id="searchInput" value="<?php echo htmlspecialchars($search) ?>" placeholder="Pesquisar Lançamentos...">
+          <input type="text" class="form-control" name="search" id="searchInput" value="<?php echo $filtros['search'] ?>" placeholder="Pesquisar Lançamentos...">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary px-2" type="button" id="resetButton">Limpar</button>
             <button class="btn btn-outline-primary px-2" type="submit">Buscar</button>
@@ -63,18 +63,18 @@ if ($isEdit == false) {
         </thead>
         <tbody>
 
-          <?php $stmt = $lancamentoDespesa->read($search);
+          <?php $stmt = $lancamentoDespesa->read($filtros);
           while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $dtVencimento = DateTime::createFromFormat('Y-m-d', $row["dtVencimento"]);
             $formattedDate = $dtVencimento ? $dtVencimento->format('d/m/Y') : $row["dtVencimento"];
           ?>
             <tr>
-              <td class="text-nowrap"><?php echo htmlspecialchars($formattedDate); ?></td>
-              <td class="text-nowrap"><?php echo htmlspecialchars($row["centroCustoNome"]); ?></td>
-              <td class="text-nowrap"><?php echo htmlspecialchars($row["despesaNome"]); ?></td>
-              <td class=""><?php echo htmlspecialchars($row["observacoes"]); ?></td>
-              <td class="text-nowrap"><?php echo htmlspecialchars($row["valor"]); ?></td>
-              <td class="text-nowrap"><?php echo htmlspecialchars($row["valorPago"]); ?></td>
+              <td class="text-nowrap py-1 px-2"><?php echo htmlspecialchars($formattedDate); ?></td>
+              <td class="text-nowrap py-1 px-2"><?php echo htmlspecialchars($row["centroCustoNome"]); ?></td>
+              <td class="text-nowrap py-1 px-2"><?php echo htmlspecialchars($row["despesaNome"]); ?></td>
+              <td class="text-nowrap py-1 px-2"><?php echo htmlspecialchars($row["observacoes"]); ?></td>
+              <td class="text-nowrap py-1 px-2 text-end"><?php echo htmlspecialchars($row["valor"]); ?></td>
+              <td class="text-nowrap py-1 px-2 text-end"><?php echo htmlspecialchars($row["valorPago"]); ?></td>
               <td class='d-flex justify-content-center'>
                 <a href='#' class='edit btn btn-warning btn-sm' data-id='<?php echo  $row["id"] ?>'>
                   <i class='fas fa-pencil-alt'>
@@ -114,8 +114,11 @@ if ($isEdit == false) {
 
       document.querySelectorAll('.delete').forEach(function(button) {
         button.addEventListener('click', function() {
-          document.getElementById('delete-id').value = this.dataset.id;
-          document.getElementById('delete-form').submit();
+          let confirmDelete = confirm("Você realmente deseja excluir o Lançamento de Despesa?");
+          if(confirmDelete){
+            document.getElementById('delete-id').value = this.dataset.id;
+            document.getElementById('delete-form').submit();
+          }
         });
       });
 
