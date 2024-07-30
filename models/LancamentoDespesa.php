@@ -69,6 +69,26 @@ class LancamentoDespesa {
         if($filtros['dtVencimentoFim']){
             $query .= " AND  ld.dtVencimento <= :dtVencimentoFim";
         }
+        
+        if($filtros['dtPagamentoInicio']){
+            $query .= " AND  ld.dtPagamento >= :dtPagamentoInicio";
+        }
+
+        if($filtros['dtPagamentoFim']){
+            $query .= " AND  ld.dtPagamento <= :dtPagamentoFim";
+        }
+
+        if($filtros['centroCusto']){
+            $query .= " AND  cc.id = :centroCusto";
+        }
+        
+        if($filtros['despesa']){
+            $query .= " AND  d.id = :despesa";
+        }
+
+        if($filtros['isPago']){
+            $query .= " AND  (ld.dtPagamento <> '0000-00-00')";
+        }
 
         $query .= " ORDER BY dtVencimento ASC";
 
@@ -78,6 +98,10 @@ class LancamentoDespesa {
         $filtros['search'] ? $stmt->bindParam(":search", $filtros['search']) : ""; 
         $filtros['dtVencimentoInicio'] ? $stmt->bindParam(":dtVencimentoInicio", $filtros['dtVencimentoInicio']) : "";
         $filtros['dtVencimentoFim'] ? $stmt->bindParam(":dtVencimentoFim", $filtros['dtVencimentoFim']) : "";
+        $filtros['dtPagamentoInicio'] ? $stmt->bindParam(":dtPagamentoInicio", $filtros['dtPagamentoInicio']) : "";
+        $filtros['dtPagamentoFim'] ? $stmt->bindParam(":dtPagamentoFim", $filtros['dtPagamentoFim']) : "";
+        $filtros['centroCusto'] ? $stmt->bindParam(":centroCusto", $filtros['centroCusto']) : "";
+        $filtros['despesa'] ? $stmt->bindParam(":despesa", $filtros['despesa']) : "";
 
         $stmt->execute();
         return $stmt;

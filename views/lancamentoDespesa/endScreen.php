@@ -33,13 +33,13 @@ if ($isEdit == false) {
 
       <div class="collapse" id="collapseExample">
         <?php include('filtros.php') ?>
-      </div>
+        </div>
     </div>
 
     <div class="mt-4 p-2 row g-0">
       <div class="col-8">
         <span class="fw-bold">Lançamentos</span>
-        <span class="badge bg-secondary">Total <?php echo $lancamentoDespesa->count() ?></span>
+        <span class="badge bg-secondary">Exibindo <?php echo $lancamentoDespesa->read($filtros)->rowCount()." de ". $lancamentoDespesa->count() ?></span>
       </div>
       <div class="col-4 d-flex justify-content-end">
         <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#createModal">Adcionar</button>

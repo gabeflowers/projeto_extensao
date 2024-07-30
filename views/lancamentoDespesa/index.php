@@ -22,7 +22,8 @@ $filtros = Array(
     'dtVencimentoFim' =>  isset($_POST['filtro_dtVencimentoFim']) ? $_POST['filtro_dtVencimentoFim'] : '',
     'centroCusto' =>  isset($_POST['filtro_centroCusto']) ? $_POST['filtro_centroCusto'] : '',
     'despesa' =>  isset($_POST['filtro_despesa']) ? $_POST['filtro_despesa'] : '',
-    'dtPagamento' =>  isset($_POST['filtro_dtPagamento']) ? $_POST['filtro_dtPagamento'] : '',
+    'dtPagamentoInicio' =>  isset($_POST['filtro_dtPagamentoInicio']) ? $_POST['filtro_dtPagamentoInicio'] : '',
+    'dtPagamentoFim' =>  isset($_POST['filtro_dtPagamentoFim']) ? $_POST['filtro_dtPagamentoFim'] : '',
     'isPago' =>  isset($_POST['filtro_isPago']) ? $_POST['filtro_isPago'] : '',
 );
 
