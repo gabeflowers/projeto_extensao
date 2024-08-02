@@ -15,7 +15,17 @@ $despesa = new Despesa($db);
 $usuario = new Usuario($db);
 
 $action = isset($_POST['action']) ? $_POST['action'] : '';
-$search = isset($_POST['search']) ? $_POST['search'] : '';
+
+$filtros = Array(
+    'search' => isset($_POST['search']) ? $_POST['search'] : '',
+    'dtVencimentoInicio' =>  isset($_POST['filtro_dtVencimentoInicio']) ? $_POST['filtro_dtVencimentoInicio'] : '',
+    'dtVencimentoFim' =>  isset($_POST['filtro_dtVencimentoFim']) ? $_POST['filtro_dtVencimentoFim'] : '',
+    'centroCusto' =>  isset($_POST['filtro_centroCusto']) ? $_POST['filtro_centroCusto'] : '',
+    'despesa' =>  isset($_POST['filtro_despesa']) ? $_POST['filtro_despesa'] : '',
+    'dtPagamentoInicio' =>  isset($_POST['filtro_dtPagamentoInicio']) ? $_POST['filtro_dtPagamentoInicio'] : '',
+    'dtPagamentoFim' =>  isset($_POST['filtro_dtPagamentoFim']) ? $_POST['filtro_dtPagamentoFim'] : '',
+    'isPago' =>  isset($_POST['filtro_isPago']) ? $_POST['filtro_isPago'] : '',
+);
 
 $links = Array(
     "screenLancamentos" => 'index.php?menu=lancamentos',

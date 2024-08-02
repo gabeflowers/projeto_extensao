@@ -7,30 +7,50 @@ if ($isEdit == false) {
   //exibir o list
 ?>
   <div>
-    <h3>Lançamentos de Despesas</h3>
-    <hr>
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-success" data-toggle="modal" data-target="#createModal">Cadastrar</button>
+    <div class="row">
+      <h1 class="m-0 fs-5 text-center fw-bold">Lançamentos de Despesas</h1>
     </div>
-    <div class="mt-2 p-2 rounded text-dark" style="background-color: #F6F6F6;">
-      <h3>Filtrar</h3>
+    <hr class="mt-2 mb-3">
+
+    <div>
+      <form method="post" action="<?php echo $links["screenLancamentos"] ?>" autocomplete="off">
+        <div class="input-group input-group-sm my-1">
+          <input type="text" class="form-control" name="search" id="searchInput" value="<?php echo $filtros['search'] ?>" placeholder="Pesquisar Lançamentos...">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary px-2" type="button" id="resetButton">Limpar</button>
+            <button class="btn btn-outline-primary px-2" type="submit">Buscar</button>
+          </div>
+        </div>
+      </form>
     </div>
 
-    <form method="post" action="<?php echo $links["screenLancamentos"] ?>" autocomplete="off">
-      <div class="input-group mt-3 mb-3">
-        <span class="input-group-text" id="basicaddon1">Buscar: </span>
-        <input type="text" class="form-control" name="search" id="searchInput" value="<?php echo htmlspecialchars($search) ?>" placeholder="Digite sua busca...">
+    <div class="p-1 rounded" style="background-color: #F6F6F6;">
+      <div class="row">
+        <a class="text-decoration-none text-body" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          <div>Filtros</div>
+        </a>
       </div>
-      <button class="btn btn-danger" type="button" id="resetButton">Limpar</button>
-      <button class="btn btn-outline-success" type="submit">Buscar</button>
-    </form>
 
-    <div class="mt-2 p-2 text-dark" style="background-color: #F6F6F6;">
-      <h3>Lançamentos (Total: <?php echo $lancamentoDespesa->count() ?>)</h3>
+      <div class="collapse" id="collapseExample">
+        <?php include('filtros.php') ?>
+        </div>
     </div>
-    <div class="table-responsive-xl">
-      <table class="table table-striped table-bordered">
-        <thead class="table-dark">
+
+    <div class="mt-4 p-2 row g-0">
+      <div class="col-8">
+        <span class="fw-bold">Lançamentos</span>
+        <span class="badge bg-secondary">Exibindo <?php echo $lancamentoDespesa->read($filtros)->rowCount()." de ". $lancamentoDespesa->count() ?></span>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#createModal">Adcionar</button>
+
+      </div>
+
+    </div>
+
+    <div class="table-responsive" style="overflow-y: visible !important;">
+      <table class="table table-striped table-bordered table-sm">
+        <thead class="table-light">
           <tr>
             <th scope="col" class="text-nowrap px-2">Vencimento</th>
             <th scope="col" class="text-nowrap px-2">Origem</th>
@@ -43,18 +63,18 @@ if ($isEdit == false) {
         </thead>
         <tbody>
 
-          <?php $stmt = $lancamentoDespesa->read($search);
+          <?php $stmt = $lancamentoDespesa->read($filtros);
           while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $dtVencimento = DateTime::createFromFormat('Y-m-d', $row["dtVencimento"]);
             $formattedDate = $dtVencimento ? $dtVencimento->format('d/m/Y') : $row["dtVencimento"];
           ?>
             <tr>
-              <td class="text-nowrap"><?php echo htmlspecialchars($formattedDate); ?></td>
-              <td class="text-nowrap"><?php echo htmlspecialchars($row["centroCustoNome"]); ?></td>
-              <td class="text-nowrap"><?php echo htmlspecialchars($row["despesaNome"]); ?></td>
-              <td class=""><?php echo htmlspecialchars($row["observacoes"]); ?></td>
-              <td class="text-nowrap"><?php echo htmlspecialchars($row["valor"]); ?></td>
-              <td class="text-nowrap"><?php echo htmlspecialchars($row["valorPago"]); ?></td>
+              <td class="text-nowrap py-1 px-2"><?php echo htmlspecialchars($formattedDate); ?></td>
+              <td class="text-nowrap py-1 px-2"><?php echo htmlspecialchars($row["centroCustoNome"]); ?></td>
+              <td class="text-nowrap py-1 px-2"><?php echo htmlspecialchars($row["despesaNome"]); ?></td>
+              <td class="text-nowrap py-1 px-2"><?php echo htmlspecialchars($row["observacoes"]); ?></td>
+              <td class="text-nowrap py-1 px-2 text-end"><?php echo htmlspecialchars($row["valor"]); ?></td>
+              <td class="text-nowrap py-1 px-2 text-end"><?php echo htmlspecialchars($row["valorPago"]); ?></td>
               <td class='d-flex justify-content-center'>
                 <a href='#' class='edit btn btn-warning btn-sm' data-id='<?php echo  $row["id"] ?>'>
                   <i class='fas fa-pencil-alt'>
@@ -94,8 +114,11 @@ if ($isEdit == false) {
 
       document.querySelectorAll('.delete').forEach(function(button) {
         button.addEventListener('click', function() {
-          document.getElementById('delete-id').value = this.dataset.id;
-          document.getElementById('delete-form').submit();
+          let confirmDelete = confirm("Você realmente deseja excluir o Lançamento de Despesa?");
+          if(confirmDelete){
+            document.getElementById('delete-id').value = this.dataset.id;
+            document.getElementById('delete-form').submit();
+          }
         });
       });
 
@@ -106,12 +129,15 @@ if ($isEdit == false) {
       });
     });
   </script>
-<?php 
-} else { //exibir  o edit?>
-  <h3>Atualizar Lançamento</h3>
-  <hr>
-<?php 
-  
+<?php
+} else { //exibir  o edit
+?>
+  <div class="row">
+    <h1 class="m-0 fs-5 text-center fw-bold">Atualizar Lancamento</h1>
+  </div>
+  <hr class="mt-2 mb-3">
+  <?php
+
   include_once 'formularioCreateUpdateLancamento.php'; ?>
 
 <?php
